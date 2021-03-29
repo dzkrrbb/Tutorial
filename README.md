@@ -1,4 +1,4 @@
-# tutorial
+# Tutorial
 My weekly tutorial for :
 - Python
 - JS
