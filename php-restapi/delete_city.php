@@ -3,7 +3,7 @@
   //Header
   header("Access-Control-Allow-Origin: *");
   header("Content-Type: application/json; charset=UTF-8");
-  header("Access-Control-Allow-Methods: POST");
+  header("Access-Control-Allow-Methods: DELETE");
   header("Access-Control-Max-Age: 3600");
   header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
@@ -23,23 +23,21 @@
     ),
   );
 
-  // Function Add Data
-  if(!empty($_POST['name']) && !empty($_POST['id'])) {
-    // New Data Input
-    $newdata = array(
-      'id' => $_POST['id'],
-      'name' => $_POST['name']
-    );
-
-    // Add Data
-    $data[] = $newdata;
-
+  $method = $_SERVER['REQUEST_METHOD'];
+  if ('DELETE' === $method) {
+      parse_str(file_get_contents('php://input'), $_DELETE);
+      //var_dump($_PUT); //$_PUT contains put fields 
+  }
+  // Function Edit Data
+  if(!empty($_DELETE['id'])) {
     // New Data
     foreach($data as $d) {
-      $result['city'][] = array(
-        'id' => $d['id'],
-        'name' => $d['name'],
-      );
+      if($d['id'] != $_DELETE['id']) {
+        $result['city'][] = array(
+          'id' => $d['id'],
+          'name' => $d['name'],
+        );
+      }
     }
     $result['status'] = 'success';
   } else {
